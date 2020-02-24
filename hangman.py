@@ -29,19 +29,16 @@ def chooseWord(wordlist):
     return random.choice(wordlist)
 
 
-
-
 def isWordGuessed(secretWord, lettersGuessed):
     '''
     secretWord: string, the word the user is guessing
     lettersGuessed: list, what letters have been guessed so far
     returns: boolean, True if all the letters of secretWord are in lettersGuessed;
-      False otherwise
+        False otherwise
     '''
     for letter in secretWord:
         if letter not in lettersGuessed:
             return False
-            break
     return True
 
 
@@ -55,7 +52,7 @@ def getGuessedWord(secretWord, lettersGuessed):
     temp = ''
     for letter in secretWord:
         if letter in lettersGuessed:
-            temp += letter
+            temp += f'{letter} '
         else:
             temp += '_ '
     return temp
@@ -92,12 +89,10 @@ def hangman(secretWord):
     * After each round, you should also display to the user the
       partially guessed word so far, as well as letters that the
       user has not yet guessed.
-
-    Follows the other limitations detailed in the problem write-up.
     '''
     print('Welcome to the game, Hangman!')
     print('I am thinking of a word that is ' + str(len(secretWord)) +
-          'letters long.')
+          ' letters long.')
     print('-----------')
     guesses = 8
     lettersGuessed = []
@@ -105,7 +100,15 @@ def hangman(secretWord):
         print('You have ' + str(guesses) + ' guesses left.')
         print('Available Letters: ' + getAvailableLetters(lettersGuessed))
         lastGuess = input('Please guess a letter: ').lower()
+
+        if len(lastGuess) > 1:
+            print("Oops! You can only guess one letter at a time: " +
+                      getGuessedWord(secretWord, lettersGuessed))
+            print('-----------')
+            continue
+
         lettersGuessed += lastGuess
+
         if lettersGuessed.count(lastGuess) > 1:
                 print("Oops! You've already guessed that letter: " +
                       getGuessedWord(secretWord, lettersGuessed))
